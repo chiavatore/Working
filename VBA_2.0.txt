@@ -20,7 +20,7 @@ Dim WA As Object
 Dim myRange As Object
 
 
-pathh = "G:\Schtuff\COVID-19\ResumeHighlighter\20200182 Referred Resumes_Highlighted_v3.docx"
+pathh = "G:\Schtuff\XXX.docx"
 'Use this code if the spreadsheet and the Word Doc are in the same folder.
 
 MsgBox ("Modifying " & pathh)
