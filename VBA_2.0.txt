@@ -1,0 +1,121 @@
+Option Explicit
+
+Const wdColorGreen = 32768
+Const wdColorOrange = 26367
+Const wdColorLightBlue = 16737843
+Const wdColorGold = 52479
+Const wdColorAqua = 13421619
+Const wdColorLavender = 16751052
+Const wdColorRed = 255
+Const wdColorBlue = 16711680
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+Sub Replace()
+
+Dim pathh As String
+Dim pathhi As String
+Dim rCell  As Integer
+Dim from_text As String, to_text As String
+Dim WA As Object
+Dim myRange As Object
+
+
+pathh = "G:\Schtuff\COVID-19\ResumeHighlighter\20200182 Referred Resumes_Highlighted_v3.docx"
+'Use this code if the spreadsheet and the Word Doc are in the same folder.
+
+MsgBox ("Modifying " & pathh)
+
+Set WA = CreateObject("Word.Application")
+WA.Documents.Open (pathh)
+WA.Visible = True
+
+rCell = 1
+Do Until IsEmpty(Cells(rCell, 1))
+
+    from_text = Sheets("KeyWords").Range("A" & rCell).Value
+    to_text = Sheets("KeyWords").Range("B" & rCell).Value
+
+With WA.ActiveDocument
+        Set myRange = .Content
+        With myRange.Find
+            .Execute FindText:=from_text, ReplaceWith:=to_text, Replace:=2
+
+        End With
+
+    End With
+
+rCell = rCell + 1
+
+
+Loop
+
+End Sub
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+Sub Format()
+
+Dim pathh As String
+Dim pathhi As String
+Dim fCell  As Integer
+Dim from_text As String, to_text As String
+Dim WA As Object
+Dim myRange As Object
+
+Set WA = CreateObject("Word.Application")
+WA.Documents.Open (pathh)
+WA.Visible = True
+
+fCell = 1
+Do Until IsEmpty(Cells(fCell, 1))
+
+to_text = Sheets("KeyWords").Range("B" & fCell).Value
+
+Set objRange = WA.ActiveDocument.Content
+With objRange.Find
+.Text = to_text
+
+
+    End With
+
+fCell = fCell + 1
+
+
+Loop
+
+End Sub
+
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+For oCell = 1 To 100
+to_text = Sheets("KeyWords").Range("B" & oCell).Value
+
+'MsgBox ("Changing font for " & to_text)
+Set objRange = WA.ActiveDocument.Content
+With objRange.Find
+.Text = to_text
+
+Do
+.Execute
+If .Found Then
+objRange.Font.Bold = True
+'MATCH COLOR FROM ABOVE
+'MATCH COLOR FROM ABOVE
+'MATCH COLOR FROM ABOVE
+'MATCH COLOR FROM ABOVE
+objRange.Font.Color = wdColorRed
+End If
+
+Loop While .Found
+
+End With
+
+Next oCell
+
+MsgBox ("Completed modifying " & pathh)
+
+
+End Sub
+
+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
